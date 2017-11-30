@@ -1,14 +1,14 @@
 import requests, json
 
 class Connection():
-	def __init__(self, adress="127.0.0.1", port="", user=None, password=None):
+	def __init__(self, adress="http://127.0.0.1", port="", user=None, password=None):
 		self.session = requests.session()
 		self.adress = adress
 		self.port = str(port) if port == "" else ":" + str(port)
 		self.user = user
 		self.password = password
 
-	def set_connection(self, adress="127.0.0.1", port="", user=None, password=None):
+	def set_connection(self, adress="http://127.0.0.1", port="", user=None, password=None):
 		self.adress = adress
 		self.port = str(port) if port == "" else ":" + str(port)
 		self.user = user
