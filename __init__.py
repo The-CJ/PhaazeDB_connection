@@ -7,6 +7,7 @@ class Connection():
 		self.port = str(port) if port == "" else ":" + str(port)
 		self.user = user
 		self.password = password
+		self.exception_on_error = exception_on_error
 
 	def set_connection(self, adress="http://127.0.0.1", port="", user=None, password=None):
 		self.adress = adress
@@ -27,7 +28,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -45,7 +46,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -66,7 +67,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -85,7 +86,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -108,7 +109,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -129,7 +130,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
