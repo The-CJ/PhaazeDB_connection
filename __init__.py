@@ -27,7 +27,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -45,7 +45,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -66,7 +66,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -85,7 +85,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -108,7 +108,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
@@ -129,7 +129,7 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
-		if res.get('status', 'error') == 'error':
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
 			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
 
 		return res
