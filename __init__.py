@@ -1,7 +1,7 @@
 import requests, json
 
 class Connection():
-	def __init__(self, adress="http://127.0.0.1", port="", user=None, password=None):
+	def __init__(self, adress="http://127.0.0.1", port="", user=None, password=None, exception_on_error=False):
 		self.session = requests.session()
 		self.adress = adress
 		self.port = str(port) if port == "" else ":" + str(port)
@@ -27,6 +27,9 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
 	def drop(self, name=None):
@@ -42,6 +45,9 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
 	def insert(self, into=None, content=None):
@@ -60,6 +66,9 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
 	def delete(self, of=None, where=""):
@@ -76,6 +85,9 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
 	def update(self, of=None, where="", content=None):
@@ -96,10 +108,13 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
 	def select(self, of=None, where="", fields=[]):
-		if of == None: raise AttributeError("'or' can't be None")
+		if of == None: raise AttributeError("'of' can't be None")
 		if type(fields) is not list: AttributeError("'fields' must be list")
 
 		call = dict(
@@ -114,5 +129,10 @@ class Connection():
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error':
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
 		return res
 
+	class ErrorFromDB(Exception):
+		pass
