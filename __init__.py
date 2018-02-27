@@ -1,27 +1,24 @@
 import requests, json
 
 class Connection():
-	def __init__(self, adress="http://127.0.0.1", port="", user=None, password=None, exception_on_error=False):
+	def __init__(self, adress="http://127.0.0.1", port="", token=None, exception_on_error=False):
 		self.session = requests.session()
 		self.adress = adress
 		self.port = str(port) if port == "" else ":" + str(port)
-		self.user = user
-		self.password = password
+		self.token = token
 		self.exception_on_error = exception_on_error
 
-	def set_connection(self, adress="http://127.0.0.1", port="", user=None, password=None):
+	def set_connection(self, adress="http://127.0.0.1", port="", token=None):
 		self.adress = adress
 		self.port = str(port) if port == "" else ":" + str(port)
-		self.user = user
-		self.password = password
+		self.token = token
 
 	def create(self, name=None):
 		if name == None: raise AttributeError("'name' can't be None")
 
 		call = dict(
 			action="create",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			name=name)
 
 		try: r = self.session.post(self.adress+self.port, json=call)
@@ -38,8 +35,7 @@ class Connection():
 
 		call = dict(
 			action="drop",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			name=name)
 
 		try: r = self.session.post(self.adress+self.port, json=call)
@@ -58,8 +54,7 @@ class Connection():
 
 		call = dict(
 			action="insert",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			into=into,
 			content=content)
 
@@ -77,8 +72,7 @@ class Connection():
 
 		call = dict(
 			action="delete",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			of=of,
 			where=where)
 
@@ -98,8 +92,7 @@ class Connection():
 
 		call = dict(
 			action="update",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			of=of,
 			where=where,
 			content=content
@@ -120,8 +113,7 @@ class Connection():
 
 		call = dict(
 			action="select",
-			login=self.user,
-			password=self.password,
+			token=self.token,
 			of=of,
 			where=where,
 			fields=fields)
