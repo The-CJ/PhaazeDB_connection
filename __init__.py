@@ -88,7 +88,7 @@ class Connection():
 	def update(self, of=None, where="", content=None):
 		if of == None or content == None: raise AttributeError("'of' can't be None")
 
-		if type(content) is not dict: raise AttributeError("'content' must be dict")
+		if type(content) is not dict and type(content) is not str: raise AttributeError("'content' must be dict or eval str")
 
 		call = dict(
 			action="update",
