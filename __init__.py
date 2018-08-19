@@ -1,15 +1,15 @@
 import requests, json
 
 class Connection():
-	def __init__(self, adress="http://127.0.0.1", port="", token=None, exception_on_error=False):
+	def __init__(self, address="http://127.0.0.1", port="", token=None, exception_on_error=False):
 		self.session = requests.session()
-		self.adress = adress
+		self.address = address
 		self.port = str(port) if port == "" else ":" + str(port)
 		self.token = token
 		self.exception_on_error = exception_on_error
 
-	def set_connection(self, adress="http://127.0.0.1", port="", token=None):
-		self.adress = adress
+	def set_connection(self, address="http://127.0.0.1", port="", token=None):
+		self.address = address
 		self.port = str(port) if port == "" else ":" + str(port)
 		self.token = token
 
@@ -21,7 +21,7 @@ class Connection():
 			token=self.token,
 			name=name)
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
@@ -38,7 +38,7 @@ class Connection():
 			token=self.token,
 			name=name)
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
@@ -58,7 +58,7 @@ class Connection():
 			into=into,
 			content=content)
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
@@ -67,7 +67,7 @@ class Connection():
 
 		return res
 
-	def delete(self, of=None, where=""):
+	def delete(self, of=None, where="", limit=None):
 		if of == None: raise AttributeError("'of' can't be None")
 
 		call = dict(
@@ -75,8 +75,10 @@ class Connection():
 			token=self.token,
 			of=of,
 			where=where)
+		if limit != None:
+			call['limit'] = limit
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
@@ -85,7 +87,7 @@ class Connection():
 
 		return res
 
-	def update(self, of=None, where="", content=None):
+	def update(self, of=None, where="", content=None, limit=None):
 		if of == None or content == None: raise AttributeError("'of' can't be None")
 
 		if type(content) is not dict and type(content) is not str: raise AttributeError("'content' must be dict or eval str")
@@ -97,8 +99,10 @@ class Connection():
 			where=where,
 			content=content
 			)
+		if limit != None:
+			call['limit'] = limit
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
@@ -107,7 +111,7 @@ class Connection():
 
 		return res
 
-	def select(self, of=None, where="", fields=[]):
+	def select(self, of=None, where="", fields=[], limit=None):
 		if of == None: raise AttributeError("'of' can't be None")
 		if type(fields) is not list: AttributeError("'fields' must be list")
 
@@ -118,7 +122,10 @@ class Connection():
 			where=where,
 			fields=fields)
 
-		try: r = self.session.post(self.adress+self.port, json=call)
+		if limit != None:
+			call['limit'] = limit
+
+		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
 
 		res = json.loads(r.text)
