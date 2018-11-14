@@ -111,7 +111,7 @@ class Connection():
 
 		return res
 
-	def select(self, of=None, where="", fields=[], limit=None):
+	def select(self, of=None, where="", fields=[], **kwargs):
 		if of == None: raise AttributeError("'of' can't be None")
 		if type(fields) is not list: AttributeError("'fields' must be list")
 
@@ -120,10 +120,11 @@ class Connection():
 			token=self.token,
 			of=of,
 			where=where,
-			fields=fields)
+			fields=fields,
+			)
 
-		if limit != None:
-			call['limit'] = limit
+		for kwarg in kwargs:
+			call[kwarg] = kwargs[kwarg]
 
 		try: r = self.session.post(self.address+self.port, json=call)
 		except: raise ConnectionError("Failed to connect")
