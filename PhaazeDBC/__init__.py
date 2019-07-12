@@ -139,5 +139,25 @@ class Connection():
 
 		return res
 
+	def default(self, of=None, content=None):
+		if of == None: raise AttributeError("'of' can't be None")
+		if content == None: raise AttributeError("'content' can't be None")
+
+		call = dict(
+			action="default",
+			token=self.token,
+			name=of,
+			content=content,
+		)
+
+		try: r = self.session.post(self.address+self.port, json=call)
+		except: raise ConnectionError("Failed to connect")
+
+		res = json.loads(r.text)
+		if res.get('status', 'error') == 'error' and self.exception_on_error:
+			raise Connection.ErrorFromDB("PhaazeDB returned: "+str(res))
+
+		return res
+
 	class ErrorFromDB(Exception):
 		pass
